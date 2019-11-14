@@ -1,8 +1,10 @@
 package com.example.areaalert;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,6 +18,12 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import org.json.JSONArray;
@@ -30,15 +38,18 @@ import java.util.Scanner;
 public class CongestionMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
+    FirebaseFirestore db=FirebaseFirestore.getInstance();
+    ArrayList<String> lats=new ArrayList<>();
+    ArrayList<String> longs=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_congestion_map);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(CongestionMap.this);
     }
 
 
@@ -58,10 +69,45 @@ public class CongestionMap extends FragmentActivity implements OnMapReadyCallbac
         mMap.getUiSettings().setZoomControlsEnabled(true);
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(12.986694,77.575882 );
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        Polyline polyline=googleMap.addPolyline(new PolylineOptions().add(new LatLng(13.0305, 77.5649)).add(new LatLng(10.0305, 90.5649)).add(new LatLng(7.0305, 70.5649)) );
+        CollectionReference colref=db.collection("verified_reports")
+                .document("cLoHtsP4xy3UcAnCYUXE")
+                .collection("locations");
+        colref.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots)
+                {
+                    String lat=queryDocumentSnapshot.getString("lat");
+                    String lng=queryDocumentSnapshot.getString("lng");
+                    lats.add(lat);
+                    longs.add(lng);
+                    Log.d("This","success");
 
+                }
+                addMarkers(lats,longs);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("This","failure");
+
+            }
+        });
+
+        Polyline polyline=googleMap.addPolyline(new PolylineOptions().add(new LatLng(13.0305, 77.5649)).add(new LatLng(10.0305, 90.5649)).add(new LatLng(7.0305, 70.5649)) );
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+    }
+    public void addMarkers(ArrayList<String> lats,ArrayList<String> longs) {
+        Log.d("Lat Size",String.valueOf(lats.size()));
+        for (int i = 0; i < lats.size(); i++) {
+            Log.d("TAG", "addMarkers: " + lats.get(i));
+            ArrayList<Double> coords = new ArrayList<>();
+            coords.add(Double.parseDouble(lats.get(i)));
+            coords.add(Double.parseDouble(longs.get(i)));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(coords.get(0), coords.get(1))).title("Marker in Sydney"));
+        }
     }
     private void addHeatMap() {
         List<LatLng> list=new ArrayList<>() ;

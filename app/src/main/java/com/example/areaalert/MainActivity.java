@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         notificationManager = NotificationManagerCompat.from(this);
-
+Intent intent=new Intent(this,CongestionMap.class);
+startActivity(intent);
         final Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         button2=findViewById(R.id.button2);
 //        Intent intent = new Intent(this, CongestionMap.class);

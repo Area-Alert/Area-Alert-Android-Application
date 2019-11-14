@@ -1,11 +1,10 @@
 package com.example.areaalert;
 
-//import android.support.v4.app.NotificationCompat;
-//import android.support.v4.app.NotificationManagerCompat;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,6 +19,9 @@ import java.util.Map;
 import java.util.Random;
 
 import static com.example.areaalert.App.CHANNEL_1_ID;
+import static com.example.areaalert.App.CHANNEL_2_ID;
+import static com.example.areaalert.App.CHANNEL_3_ID;
+import static com.example.areaalert.App.CHANNEL_4_ID;
 
 public class FirebaseServiceClass extends FirebaseMessagingService {
     String token = "";
@@ -40,29 +42,24 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            Map<String, String> map = new HashMap<>();
+            Map<String, String> map;
             map = remoteMessage.getData();
+
             String title = map.get("title");
             String body = map.get("body");
+            String priority = map.get("priority");
+            String tag = map.get("tag");
 
             notificationManager = NotificationManagerCompat.from(this);
 
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
-                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                    .setContentTitle("test")
-                    .setContentText("test")
-//                   .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .build();
-
-            notificationManager.notify(1, notification);
-
-
-            if (/* Check if data needs to be processed by long running job */ true) {
-                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
-                //scheduleJob();
+            if (priority.equals("1")) {
+                buildNotification(CHANNEL_1_ID, map);
+            } else if (priority.equals("2")) {
+                buildNotification(CHANNEL_2_ID, map);
+            } else if (priority.equals("3")) {
+                buildNotification(CHANNEL_3_ID, map);
             } else {
-                // Handle message within 10 seconds
-                //handleNow();
+                buildNotification(CHANNEL_4_ID, map);
             }
         }
 
@@ -83,6 +80,22 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         //sendRegistrationToServer(token);
+    }
+
+    public void buildNotification(String CHANNEL_ID, Map map) {
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                .setContentTitle((CharSequence) map.get("title"))
+                .setVibrate(new long[]{500, 1000, 1500})
+                .setContentText((CharSequence) map.get("body"));
+
+        if (CHANNEL_ID.equals(CHANNEL_4_ID)) {
+            notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        } else if (CHANNEL_ID.equals(CHANNEL_3_ID)) {
+            notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        }
+
+        notificationManager.notify(1, notification.build());
     }
 }
 

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ShakeListener mShaker;
     String token1;
     private NotificationManagerCompat notificationManager;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "TAG";
     Button button2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // Get new Instance ID token
                         String token = task.getResult().getToken();
+                        Log.d(TAG, "onComplete: " + token);
                         token1=token;
                     }
                 });

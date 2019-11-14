@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AreaAlert</string>
+    <string name="title_activity_congestion_map">Map</string>
+</resources>

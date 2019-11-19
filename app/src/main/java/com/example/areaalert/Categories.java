@@ -1,0 +1,69 @@
+package com.example.areaalert;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+
+public class Categories extends AppCompatActivity {
+    ArrayList<Integer> images=new ArrayList<>();
+    ArrayList<String> names=new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_categories);
+        ListView listView=findViewById(R.id.listView);
+        FloatingActionButton fab=findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(Categories.this, "Generate", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Categories.this, MainActivity.class));
+            }
+        });
+        images.add(R.drawable.dsce1);
+        images.add(R.drawable.dsce2);
+        images.add(R.drawable.plus);
+        images.add(R.drawable.dis);
+        names.add("View Road Blockages");
+        names.add("Women Suraksha");
+        names.add("Ambulance Routing");
+        names.add("Natural Disaster Alert!");
+        FeedAdapter adapter=new FeedAdapter(Categories.this,names,images);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0)
+                {
+                    Intent intent=new Intent(Categories.this,CongestionMap.class);
+                    startActivity(intent);
+                }
+               else if(position==1)
+                {
+                    Intent intent=new Intent(Categories.this,WomenActivity.class);
+                    startActivity(intent);
+                }
+               else if(position==2)
+                {
+                    Intent intent=new Intent(Categories.this,AmbulanceRoutes.class);
+                    startActivity(intent);
+                }
+               else if(position==3)
+                {
+                    Intent intent=new Intent(Categories.this,DisasterActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+}

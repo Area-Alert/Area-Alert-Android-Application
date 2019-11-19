@@ -65,20 +65,17 @@ public class CongestionMap extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        addHeatMap();
         mMap.getUiSettings().setZoomControlsEnabled(true);
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(12.986694,77.575882 );
-        CollectionReference colref=db.collection("verified_reports")
-                .document("cLoHtsP4xy3UcAnCYUXE")
-                .collection("locations");
+        LatLng sydney = new LatLng(12.9076,77.56615882 );
+        CollectionReference colref=db.collection("verified_reports");
         colref.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots)
                 {
-                    String lat=queryDocumentSnapshot.getString("lat");
-                    String lng=queryDocumentSnapshot.getString("lng");
+                    String lat=String.valueOf(queryDocumentSnapshot.get("lat"));
+                    String lng=String.valueOf(queryDocumentSnapshot.get("lon"));
                     lats.add(lat);
                     longs.add(lng);
                     Log.d("This","success");
@@ -95,7 +92,8 @@ public class CongestionMap extends FragmentActivity implements OnMapReadyCallbac
             }
         });
 
-        Polyline polyline=googleMap.addPolyline(new PolylineOptions().add(new LatLng(13.0305, 77.5649)).add(new LatLng(10.0305, 90.5649)).add(new LatLng(7.0305, 70.5649)) );
+        mMap.setMinZoomPreference(13.0f);
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
     }
@@ -103,10 +101,7 @@ public class CongestionMap extends FragmentActivity implements OnMapReadyCallbac
         Log.d("Lat Size",String.valueOf(lats.size()));
         for (int i = 0; i < lats.size(); i++) {
             Log.d("TAG", "addMarkers: " + lats.get(i));
-            ArrayList<Double> coords = new ArrayList<>();
-            coords.add(Double.parseDouble(lats.get(i)));
-            coords.add(Double.parseDouble(longs.get(i)));
-            mMap.addMarker(new MarkerOptions().position(new LatLng(coords.get(0), coords.get(1))).title("Marker in Sydney"));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lats.get(i)),Double.parseDouble(longs.get(i)))).title("Traffic Alert!"));
         }
     }
     private void addHeatMap() {

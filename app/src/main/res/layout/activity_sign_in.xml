@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".SignInActivity">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/signbar"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,60 +24,58 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email:"
-        android:textSize="20dp"
-        android:layout_marginTop="180dp"
-        android:paddingRight="15dp"
-        android:id="@+id/username"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter email"
-        android:layout_marginTop="170dp"
-        android:layout_toRightOf="@+id/username"
-        android:id="@+id/Username" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/password"
-        android:text="Password:"
-        android:paddingRight="15dp"
-        android:layout_marginTop="220dp"
+        android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+        android:text="   +91"
+        android:layout_marginTop="207dp"
+        android:id="@+id/r91"
+        android:textColor="#000000"
         android:textSize="20dp"/>
 
     <EditText
+        android:id="@+id/PhoneNumberS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/password"
-        android:id="@+id/Password"
-        android:layout_marginTop="210dp"
-        android:hint="Password"
-        android:inputType="textPassword"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/r91"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="15dp"
+        android:hint="Enter the Phone Number Here"
+        android:textAlignment="center" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/PhoneNumberS"
+        android:id="@+id/CodeSign"
+        android:layout_marginTop="50dp"
+        android:hint="Enter the code here"
+        android:textAlignment="center"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Login"
-        android:text="Login"
-        android:layout_marginTop="300dp"
+        android:text="Send Code"
+        android:layout_below="@+id/CodeSign"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Register"
-        android:text="Register"
-        android:layout_marginTop="350dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@+id/Login"
+        android:id="@+id/SignIn"
+        android:layout_centerInParent="true"
+        android:text="Login"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Register1"
         android:text="Register with phone number"
-        android:layout_below="@+id/Register"
+        android:layout_below="@+id/Login"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

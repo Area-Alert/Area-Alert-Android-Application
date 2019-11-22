@@ -141,7 +141,7 @@ public class RegisterActivity1 extends AppCompatActivity {
 
     private void SendVerificationCode() {
 
-        phoneNumber = Phone.getText().toString();
+        phoneNumber = "+91" + Phone.getText().toString();
         EmailAddress = RegisterEmail.getText().toString();
         Name = RegisterName.getText().toString();
 

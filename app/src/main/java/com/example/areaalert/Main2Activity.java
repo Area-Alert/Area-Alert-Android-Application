@@ -38,8 +38,8 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         notificationManager = NotificationManagerCompat.from(this);
-Intent intent=new Intent(this,MainActivity.class);
-startActivity(intent);
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
 //        Intent intent = new Intent(this, CongestionMap.class);
 //        startActivity(intent);
 

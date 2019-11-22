@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "962330034406-s8amm103auju5l0ji8glcav74efh2aom.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.areaalert",
+            "certificate_hash": "9f9029d14f79bc5ac4646b9e39563501e46b5af8"
+          }
+        },
+        {
           "client_id": "962330034406-4ibfi04p17poorlob3eulu6io7euorbb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -29,10 +37,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDHXo0pfTtKFVjzc3JGvXYmLhR1liJAJak"
-        },
-        {
-          "current_key": "AIzaSyC7gcG-G3-js-JAdLiizDmV9LaSvUFCa8Q"
+          "current_key": "AIzaSyAvlxqrfgowT3ZEVzF4aTkVJk1U7-a2ukU"
         }
       ],
       "services": {
@@ -69,10 +74,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDHXo0pfTtKFVjzc3JGvXYmLhR1liJAJak"
-        },
-        {
-          "current_key": "AIzaSyC7gcG-G3-js-JAdLiizDmV9LaSvUFCa8Q"
+          "current_key": "AIzaSyAvlxqrfgowT3ZEVzF4aTkVJk1U7-a2ukU"
         }
       ],
       "services": {
@@ -109,10 +111,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDHXo0pfTtKFVjzc3JGvXYmLhR1liJAJak"
-        },
-        {
-          "current_key": "AIzaSyC7gcG-G3-js-JAdLiizDmV9LaSvUFCa8Q"
+          "current_key": "AIzaSyAvlxqrfgowT3ZEVzF4aTkVJk1U7-a2ukU"
         }
       ],
       "services": {

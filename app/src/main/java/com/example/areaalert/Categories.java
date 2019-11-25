@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.example.areaalert.mapActivities.AmbulanceRoutes;
+import com.example.areaalert.mapActivities.CongestionMap;
+import com.example.areaalert.mapActivities.DisasterActivity;
+import com.example.areaalert.mapActivities.WomenActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -45,22 +48,22 @@ public class Categories extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0)
                 {
-                    Intent intent=new Intent(Categories.this,CongestionMap.class);
+                    Intent intent=new Intent(Categories.this, CongestionMap.class);
                     startActivity(intent);
                 }
                else if(position==1)
                 {
-                    Intent intent=new Intent(Categories.this,WomenActivity.class);
+                    Intent intent=new Intent(Categories.this, WomenActivity.class);
                     startActivity(intent);
                 }
                else if(position==2)
                 {
-                    Intent intent=new Intent(Categories.this,AmbulanceRoutes.class);
+                    Intent intent=new Intent(Categories.this, AmbulanceRoutes.class);
                     startActivity(intent);
                 }
                else if(position==3)
                 {
-                    Intent intent=new Intent(Categories.this,DisasterActivity.class);
+                    Intent intent=new Intent(Categories.this, DisasterActivity.class);
                     startActivity(intent);
                 }
             }

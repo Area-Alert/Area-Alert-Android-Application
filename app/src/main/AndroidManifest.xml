@@ -35,23 +35,23 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".AmbulanceActivity"
+            android:name=".Others.AmbulanceActivity"
             android:label="@string/title_activity_ambulance" />
         <activity
-            android:name=".DisasterActivity"
+            android:name=".mapActivities.DisasterActivity"
             android:label="@string/title_activity_disaster" />
         <activity
-            android:name=".WomenActivity"
+            android:name=".mapActivities.WomenActivity"
             android:label="@string/title_activity_women" />
-        <activity android:name=".ChannelActivity" />
-        <activity android:name=".ReportCongestion" />
+        <activity android:name=".Others.ChannelActivity" />
+        <activity android:name=".Others.ReportCongestion" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".CongestionMap" />
-        <activity android:name=".AmbulanceRoutes"/>
+        <activity android:name=".mapActivities.CongestionMap" />
+        <activity android:name=".mapActivities.AmbulanceRoutes"/>
         <activity android:name=".RegisterActivity1"/>
         <activity android:name=".SignInActivity"/>
         <activity android:name=".MainActivity">
@@ -74,7 +74,7 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_provider_paths"/>
         </provider>
 
-        <receiver android:name=".LocationService" />
+        <receiver android:name=".LocationServiceBroadcastReceiver" />
     </application>
 
 </manifest>

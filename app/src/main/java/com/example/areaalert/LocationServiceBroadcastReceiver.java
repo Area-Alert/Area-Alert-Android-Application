@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-public class LocationService extends BroadcastReceiver {
+public class LocationServiceBroadcastReceiver extends BroadcastReceiver {
 
     public static final String ACTION_PROCESS_UPDATE = "com.example.areaalert.UPDATE_LOCATION";
     private static final String TAG = "TAG";
@@ -34,7 +34,7 @@ public class LocationService extends BroadcastReceiver {
                     Log.d(TAG, "onReceive: " + location.getLatitude() + " " + location.getLongitude());
 
                     if (mAuth.getCurrentUser() != null) {
-                        Log.d(TAG, "onReceive: oh wow null and empty apparently :" + mAuth.getCurrentUser().getEmail() + ":");
+                        Log.d(TAG, "onReceive: oh wow null and empty apparently :" + mAuth.getCurrentUser().getPhoneNumber() + ":");
                         updateDBWithLocation(location);
                     }
                 }
@@ -43,22 +43,23 @@ public class LocationService extends BroadcastReceiver {
     }
 
     private void updateDBWithLocation(final Location location) {
-        Log.d(TAG, "updateDBWithLocation: " + mAuth.getCurrentUser().getEmail());
+        Log.d(TAG, "updateDBWithLocation: " + mAuth.getCurrentUser().getPhoneNumber());
 
         db.collection("users")
-                .document(mAuth.getCurrentUser().getEmail())
+                .document(mAuth.getCurrentUser().getPhoneNumber())
                 .update("currentLocation", new GeoPoint(location.getLatitude(), location.getLongitude()))
                 
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        MainActivity.getInstance().makeToast(location.getLatitude() + " " + location.getLongitude());
+                        Log.d(TAG, "onSuccess: " + "location upfated in db");
+//                        MainActivity.getInstance().makeToast(location.getLatitude() + " " + location.getLongitude());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        MainActivity.getInstance().makeToast(e.toString());
+                        //MainActivity.getInstance().makeToast(e.toString());
                     }
                 });
     }

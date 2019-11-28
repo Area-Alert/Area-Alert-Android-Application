@@ -63,6 +63,7 @@ public class WomenActivity extends FragmentActivity implements OnMapReadyCallbac
 
         final Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
+        Log.d("WomenActivity", "onCreate: This is WomenActivity");
         setLocationConfig();
 
         mShaker = new ShakeListener(this);
@@ -77,6 +78,8 @@ public class WomenActivity extends FragmentActivity implements OnMapReadyCallbac
 
                 String listadd[] = address.split(",");
                 int i = listadd.length;
+
+                Log.d("TAG", "onShake: " + location);
 
                 Map<String, String> name1 = new HashMap<>();
                 name1.put("display", "Damsel in Distress");
@@ -121,18 +124,25 @@ public class WomenActivity extends FragmentActivity implements OnMapReadyCallbac
 }
 
     private void setLocationConfig() {
+        Log.d("TAG", "setLocationConfig: holo");
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setPowerRequirement(Criteria.POWER_HIGH);
         provider = locationManager.getBestProvider(criteria, true);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
+            Log.d("WomenActivity", "setLocationConfig: Permission seems to be not granted");
             return;
         }
+        Log.d("WomenActivity", "setLocationConfig: Permission is granted");
         locationManager.requestLocationUpdates(provider, 100, 0, this);
         location = locationManager.getLastKnownLocation(provider);
+
+        Log.d("TAG", "setLocationConfig: " + location);
+
     }
 
     @Override

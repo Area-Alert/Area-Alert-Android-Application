@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (currentUser == null) {
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
-            finish();
         } else {
             db.collection("users")
                     .get()
@@ -196,7 +195,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     public void onSuccess(InstanceIdResult instanceIdResult) {
                         messagingToken = instanceIdResult.getToken();
 
-                        Log.d(TAG, "onSuccess: " + String.valueOf(mAuth.getCurrentUser().getPhoneNumber()));
+                        mAuth = FirebaseAuth.getInstance();
+
+                        Log.d(TAG, "onSuccess: " + String.valueOf(mAuth.getCurrentUser()));
                         db.collection("users")
                                 .document(mAuth.getCurrentUser().getPhoneNumber())
                                 .update("token", messagingToken)

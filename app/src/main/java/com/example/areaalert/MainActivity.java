@@ -438,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             address = addresses.get(0).getAddressLine(0);
             if(addresses.get(0).getAddressLine(1) != null)
                 address = "," + addresses.get(0).getAddressLine(1);
-            if(addresses.get(0).getAddressLine(1) != null)
+            if(addresses.get(0).getAddressLine(2) != null)
                 address = "," + addresses.get(0).getAddressLine(2);
         }catch(Exception e)
         {

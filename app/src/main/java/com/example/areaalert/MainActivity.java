@@ -9,6 +9,7 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,6 +33,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,13 +45,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -80,45 +86,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     LocationManager locationManager;
     Location location;
-    String address = "",imageFilename;
+    String address = "", imageFilename;
     Uri imageFileUri;
-    String filePath,name;
+    String filePath, name;
 
-    Button Report,Camera,Feeds;
+    Button Report, Camera, Feeds;
     EditText ReportText;
 
-    Uri downloadUrl,dataUri;
+    Uri downloadUrl, dataUri;
     Bitmap bitmap;
     Date date;
     File mImageFile;
+
+    private String messagingToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authorities = getApplicationContext().getPackageName() + ".fileprovider";
-        date = new Date();
-
-        UserText = findViewById(R.id.Hello);
-        Report = findViewById(R.id.ReportBtn);
-        Camera = findViewById(R.id.CameraButton);
-        Feeds = findViewById(R.id.Feeds);
-        Capture = findViewById(R.id.ImageViewMain);
-        spinner = findViewById(R.id.Spinner);
-//        pb = findViewById(R.id.progressBar2);
-//        pb.setVisibility(View.INVISIBLE);
-
         mAuth = FirebaseAuth.getInstance();
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-        imagesStorageRef = mStorageRef.child("images");
+        currentUser = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        currentUser = mAuth.getCurrentUser();
-        if(currentUser == null){
-            startActivity(new Intent(MainActivity.this,SignInActivity.class));
-        }
-        else {
+        if (currentUser == null) {
+            startActivity(new Intent(MainActivity.this, SignInActivity.class));
+        } else {
             db.collection("users")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -137,6 +130,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     });
         }
+
+        hideNavigationbar();
+
+        getMessagingToken();
+
+        updateLocation();
+
+        authorities = getApplicationContext().getPackageName() + ".fileprovider";
+        date = new Date();
+
+        UserText = findViewById(R.id.Hello);
+        Report = findViewById(R.id.ReportBtn);
+        Camera = findViewById(R.id.CameraButton);
+        Feeds = findViewById(R.id.Feeds);
+        Capture = findViewById(R.id.ImageViewMain);
+        spinner = findViewById(R.id.Spinner);
+//        pb = findViewById(R.id.progressBar2);
+//        pb.setVisibility(View.INVISIBLE);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        imagesStorageRef = mStorageRef.child("images");
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
@@ -174,8 +188,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    private void getMessagingToken() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                    @Override
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                        messagingToken = instanceIdResult.getToken();
 
-    public void ClickMe(){
+                        mAuth = FirebaseAuth.getInstance();
+
+                        Log.d(TAG, "onSuccess: " + String.valueOf(mAuth.getCurrentUser()));
+                        db.collection("users")
+                                .document(mAuth.getCurrentUser().getPhoneNumber())
+                                .update("token", messagingToken)
+
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d(TAG, "onFailure: messaging fail");
+                                    }
+                                });
+                    }
+                });
+    }
+
+
+    public void ClickMe() {
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         dispatchTakePictureIntent();
@@ -200,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(requestCode == camera_request && resultCode == RESULT_OK) {
+        if (requestCode == camera_request && resultCode == RESULT_OK) {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(mImageFile));
             } catch (IOException e) {
@@ -242,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         downloadUrl = uri;
-                                        Log.d(TAG,uri.toString());
+                                        Log.d(TAG, uri.toString());
                                         SendAfterUpload();
                                     }
                                 })
@@ -269,9 +307,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         ReportText = findViewById(R.id.Report);
 
-        if(ReportText.getText().toString().isEmpty()){
+        if (ReportText.getText().toString().isEmpty() || spinner.getSelectedItem().toString()
+                .equalsIgnoreCase("Select Category")) {
             ReportText.setHint("Enter the Report Here");
             ReportText.requestFocus();
+            Toast.makeText(this, "See input to make sure that all the fields are filled in", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -287,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        }
     }
 
-    public void SendAfterUpload(){
+    public void SendAfterUpload() {
         String listadd[] = address.split(",");
         int i = listadd.length;
 
@@ -298,16 +338,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Map<String, Object> report = new HashMap<>();
         report.put("address", address);
-        report.put("city", listadd[i-3]);
+        report.put("city", listadd[i - 3]);
         report.put("lat", location.getLatitude());
         report.put("lon", location.getLongitude());
-        report.put("postalCode", listadd[i-2].split(" ")[2]);
+        report.put("loc", new GeoPoint(location.getLatitude(), location.getLongitude()));
+        report.put("postalCode", listadd[i - 2].split(" ")[2]);
         report.put("report", ReportText.getText().toString());
         report.put("report_type", spinner.getSelectedItem());
         report.put("name", name1);
         report.put("downloadurl", downloadUrl.toString());
 
         //Toast.makeText(this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
+
 
         db.collection("reports")
                 .add(report)
@@ -328,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void showAlert(final int status) {
         String message, title, btnText;
-        if(status == 1) {
+        if (status == 1) {
             message = "Your Location Settings is set to 'OFF'.\nPlease Enable Location to " +
                     "use this app";
             title = "Enable Location";
@@ -396,12 +438,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
             address = addresses.get(0).getAddressLine(0);
-            if(addresses.get(0).getAddressLine(1) != null)
+            if (addresses.get(0).getAddressLine(1) != null)
                 address = "," + addresses.get(0).getAddressLine(1);
-            if(addresses.get(0).getAddressLine(1) != null)
+            if (addresses.get(0).getAddressLine(1) != null)
                 address = "," + addresses.get(0).getAddressLine(2);
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
 //            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
 
@@ -423,12 +464,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             address = addresses.get(0).getAddressLine(0);
-            if(addresses.get(0).getAddressLine(1) != null)
+            if (addresses.get(0).getAddressLine(1) != null)
                 address = "," + addresses.get(0).getAddressLine(1);
-            if(addresses.get(0).getAddressLine(1) != null)
+            if (addresses.get(0).getAddressLine(1) != null)
                 address = "," + addresses.get(0).getAddressLine(2);
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
     }
@@ -452,4 +492,63 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
 
     }
+
+    private static final int PENDING_INTENT_REQUEST_CODE = 111;
+
+    static MainActivity instance;
+
+    private LocationRequest locationRequest;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private static long LOC_UPDATE_INTERVAL_DURATION = 5 * 1000;
+    private static long LOC_UPDATE_INTERVAL_DURATION_SMALLEST = 2 * 1000;
+
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
+    public void makeToast(final String toast) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateLocation() {
+        // build location request
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(LOC_UPDATE_INTERVAL_DURATION)
+                .setFastestInterval(LOC_UPDATE_INTERVAL_DURATION_SMALLEST)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, getPendingIntent());
+    }
+
+    private PendingIntent getPendingIntent() {
+        Intent intent = new Intent(this, LocationServiceBroadcastReceiver.class);
+        intent.setAction(LocationServiceBroadcastReceiver.ACTION_PROCESS_UPDATE);
+
+        return PendingIntent.getBroadcast(this, PENDING_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    public void hideNavigationbar() {
+
+        this.getWindow().getDecorView()
+                .setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_FULLSCREEN |
+                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                );
+
+    }
+
 }

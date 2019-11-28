@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ReportCongestion">
+    tools:context=".Others.ReportCongestion">
 
     <TextView
         android:id="@+id/textView"

@@ -9,9 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Categories"></activity>
+        <activity android:name=".Others.WomenFeeds"></activity>
+        <activity android:name=".Categories" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -35,27 +36,27 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".AmbulanceActivity"
+            android:name=".Others.AmbulanceActivity"
             android:label="@string/title_activity_ambulance" />
         <activity
-            android:name=".DisasterActivity"
+            android:name=".mapActivities.DisasterActivity"
             android:label="@string/title_activity_disaster" />
         <activity
-            android:name=".WomenActivity"
+            android:name=".mapActivities.WomenActivity"
             android:label="@string/title_activity_women" />
-        <activity android:name=".ChannelActivity" />
-        <activity android:name=".ReportCongestion" />
+        <activity android:name=".Others.ChannelActivity" />
+        <activity android:name=".Others.ReportCongestion" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".CongestionMap" />
-        <activity android:name=".AmbulanceRoutes"/>
-        <activity android:name=".RegisterActivity1"/>
-        <activity android:name=".SignInActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".Main2Activity">
+        <activity android:name=".mapActivities.CongestionMap" />
+        <activity android:name=".mapActivities.AmbulanceRoutes" />
+        <activity android:name=".RegisterActivity1" />
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".Others.FeedClass" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,11 +69,25 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/google_maps_key"/>
-        <provider android:name="androidx.core.content.FileProvider" android:grantUriPermissions="true" android:exported="false" android:authorities="${applicationId}.fileprovider">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_provider_paths"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
         </provider>
+
+        <receiver android:name=".LocationServiceBroadcastReceiver" />
     </application>
 
 </manifest>

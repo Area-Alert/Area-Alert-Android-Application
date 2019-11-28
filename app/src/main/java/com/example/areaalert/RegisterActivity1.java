@@ -109,9 +109,8 @@ public class RegisterActivity1 extends AppCompatActivity {
                             user.put("email", EmailAddress);
                             user.put("phone number", phoneNumber);
                             user.put("uid", currentUser.getUid());
-
                             db.collection("users")
-                                    .document(EmailAddress)
+                                    .document(phoneNumber)
                                     .set(user)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override

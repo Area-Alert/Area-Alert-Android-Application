@@ -1,4 +1,4 @@
-package com.example.areaalert;
+package com.example.areaalert.Others;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;

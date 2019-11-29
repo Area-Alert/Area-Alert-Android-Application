@@ -4,8 +4,12 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -49,6 +53,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
             String body = map.get("body");
             String priority = map.get("priority");
             String tag = map.get("tag");
+            //String url = map.get("url");
 
             notificationManager = NotificationManagerCompat.from(this);
 
@@ -83,11 +88,73 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
     }
 
     public void buildNotification(String CHANNEL_ID, Map map) {
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                .setContentTitle((CharSequence) map.get("title"))
-                .setVibrate(new long[]{500, 1000, 1500})
-                .setContentText((CharSequence) map.get("body"));
+
+        int id =1;
+        //id = Integer.parseInt(map.get("id"));
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, CHANNEL_ID);
+
+        //if(map.get("url").toString().equalsIgnoreCase(""))
+            if (map.get("title").toString().equalsIgnoreCase("women")) {
+                String message = map.get("body").toString();
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce2);
+                Log.d(TAG, "buildNotification: " + message);
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle((CharSequence) map.get("title"))
+                        .setLargeIcon(largeIcon)
+                        .setContentText("Reports about women available")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setVibrate(new long[]{500, 1000, 1500});
+            } else if (map.get("title").toString().equalsIgnoreCase("congestion")) {
+                String message = map.get("body").toString();
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce1);
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle((CharSequence) map.get("title"))
+                        .setLargeIcon(largeIcon)
+                        .setContentText("Reports about congestion available")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setVibrate(new long[]{500, 1000, 1500});
+            } else if (map.get("title").toString().equalsIgnoreCase("ambulance")) {
+                String message = map.get("body").toString();
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle((CharSequence) map.get("title"))
+                        .setLargeIcon(largeIcon)
+                        .setContentText("Reports about ambulance available")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setVibrate(new long[]{500, 1000, 1500});
+            } else if (map.get("title").toString().equalsIgnoreCase("disaster")) {
+                String message = map.get("body").toString();
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dis);
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle((CharSequence) map.get("title"))
+                        .setLargeIcon(largeIcon)
+                        .setContentText("Reports about natural disasters available")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setVibrate(new long[]{500, 1000, 1500});
+            } else {
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle("Title")
+                        .setVibrate(new long[]{500, 1000, 1500})
+                        .setContentText("Message");
+            }
+
+
+
 
         if (CHANNEL_ID.equals(CHANNEL_4_ID)) {
             notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
@@ -95,7 +162,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
             notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         }
 
-        notificationManager.notify(1, notification.build());
+        notificationManager.notify(id, notification.build());
     }
 }
 

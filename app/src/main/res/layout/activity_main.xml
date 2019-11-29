@@ -92,15 +92,14 @@
         app:layout_constraintTop_toBottomOf="@+id/Spinner"
         android:layout_marginTop="20dp"/>
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/progressBar2"-->
-<!--        style="?android:attr/progressBarStyle"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/ReportBtn"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/Report"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/CameraButton"-->
-<!--        android:indeterminateDrawable="@id/progressBar2"/>-->
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="100dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -149,7 +149,7 @@ public class WomenActivity extends FragmentActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        LatLng sydney = new LatLng(23, 77);
         db.collection("reports")
                 .whereEqualTo("report_type","women")
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -222,7 +222,7 @@ public class WomenActivity extends FragmentActivity implements OnMapReadyCallbac
                                         .build();
                                 TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
                       mMap.setMinZoomPreference(8.0f);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(12.9507,77.5848)));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(23,77)));
 
 
 

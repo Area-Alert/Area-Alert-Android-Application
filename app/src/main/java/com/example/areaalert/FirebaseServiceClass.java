@@ -97,7 +97,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
         //if(map.get("url").toString().equalsIgnoreCase(""))
             if (map.get("title").toString().equalsIgnoreCase("women")) {
                 String message = map.get("body").toString();
-                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce2);
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce1);
                 Log.d(TAG, "buildNotification: " + message);
                 notification
                         .setColor(686559)

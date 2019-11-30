@@ -100,75 +100,77 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this, CHANNEL_ID);
 
-        //if(map.get("url").toString().equalsIgnoreCase(""))
-        if (map.get("title").toString().equalsIgnoreCase("women")) {
-            String message = map.get("body").toString();
-            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce2);
-            Log.d(TAG, "buildNotification: " + message);
-            notification
-                    .setColor(686559)
-                    .setSmallIcon(R.drawable.ic_warning_black_24dp)
-                    .setContentTitle((CharSequence) map.get("title"))
-                    .setLargeIcon(largeIcon)
-                    .setContentText("Reports about women available")
-                    .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText(message))
-                    .setVibrate(new long[]{500, 1000, 1500});
-        } else if (map.get("title").toString().equalsIgnoreCase("congestion")) {
-            String message = map.get("body").toString();
-            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce1);
-            notification
-                    .setColor(686559)
-                    .setSmallIcon(R.drawable.ic_warning_black_24dp)
-                    .setContentTitle((CharSequence) map.get("title"))
-                    .setLargeIcon(largeIcon)
-                    .setContentText("Reports about congestion available")
-                    .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText(message))
-                    .setVibrate(new long[]{500, 1000, 1500});
-        } else if (map.get("title").toString().equalsIgnoreCase("ambulance")) {
-            String message = map.get("body").toString();
-            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
-            notification
-                    .setColor(686559)
-                    .setSmallIcon(R.drawable.ic_warning_black_24dp)
-                    .setContentTitle((CharSequence) map.get("title"))
-                    .setLargeIcon(largeIcon)
-                    .setContentText("Reports about ambulance available")
-                    .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText(message))
-                    .setVibrate(new long[]{500, 1000, 1500});
-        } else if (map.get("title").toString().equalsIgnoreCase("disaster")) {
-            String message = map.get("body").toString();
-            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dis);
-            notification
-                    .setColor(686559)
-                    .setSmallIcon(R.drawable.ic_warning_black_24dp)
-                    .setContentTitle((CharSequence) map.get("title"))
-                    .setLargeIcon(largeIcon)
-                    .setContentText("Reports about natural disasters available")
-                    .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText(message))
-                    .setVibrate(new long[]{500, 1000, 1500});
-        } else {
-            notification
-                    .setColor(686559)
-                    .setSmallIcon(R.drawable.ic_warning_black_24dp)
-                    .setContentTitle("Title")
-                    .setVibrate(new long[]{500, 1000, 1500})
-                    .setContentText("Message");
+        if(!map.get("body").toString().equalsIgnoreCase("cancel")) {
+            if (map.get("title").toString().equalsIgnoreCase("women")) {
+                String message = map.get("body").toString();
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce2);
+                Log.d(TAG, "buildNotification: " + message);
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle((CharSequence) map.get("title"))
+                        .setLargeIcon(largeIcon)
+                        .setContentText("Reports about women available")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setVibrate(new long[]{500, 1000, 1500});
+            } else if (map.get("title").toString().equalsIgnoreCase("congestion")) {
+                String message = map.get("body").toString();
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce1);
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle((CharSequence) map.get("title"))
+                        .setLargeIcon(largeIcon)
+                        .setContentText("Reports about congestion available")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setVibrate(new long[]{500, 1000, 1500});
+            } else if (map.get("title").toString().equalsIgnoreCase("ambulance")) {
+                String message = map.get("body").toString();
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle((CharSequence) map.get("title"))
+                        .setLargeIcon(largeIcon)
+                        .setContentText("Reports about ambulance available")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setVibrate(new long[]{500, 1000, 1500});
+            } else if (map.get("title").toString().equalsIgnoreCase("disaster")) {
+                String message = map.get("body").toString();
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dis);
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle((CharSequence) map.get("title"))
+                        .setLargeIcon(largeIcon)
+                        .setContentText("Reports about natural disasters available")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setVibrate(new long[]{500, 1000, 1500});
+            } else {
+                notification
+                        .setColor(686559)
+                        .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                        .setContentTitle("Title")
+                        .setVibrate(new long[]{500, 1000, 1500})
+                        .setContentText("Message");
+            }
+
+
+            if (CHANNEL_ID.equals(CHANNEL_4_ID)) {
+                notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+            } else if (CHANNEL_ID.equals(CHANNEL_3_ID)) {
+                notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            }
+
+            notificationManager.notify(id, notification.build());
         }
-
-
-
-
-        if (CHANNEL_ID.equals(CHANNEL_4_ID)) {
-            notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
-        } else if (CHANNEL_ID.equals(CHANNEL_3_ID)) {
-            notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        else{
+            notificationManager.cancel(id);
         }
-
-        notificationManager.notify(id, notification.build());
 
     }
 }

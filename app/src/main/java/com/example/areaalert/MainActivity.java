@@ -333,6 +333,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        hideNavigationbar();
+    }
+
     public void SendAfterUpload() {
         String listadd[] = address.split(",");
         int i = listadd.length;

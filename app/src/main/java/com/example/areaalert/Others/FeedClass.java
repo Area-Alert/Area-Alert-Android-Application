@@ -37,6 +37,9 @@ public class FeedClass extends AppCompatActivity {
                     image.setVisibility(View.INVISIBLE);
                 else
                 Picasso.with(FeedClass.this).load(url).into(image);
+                String report=String.valueOf(documentSnapshot.get("report"));
+                title.setText(report);
+
             }
         });
 

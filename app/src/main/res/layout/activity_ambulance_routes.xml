@@ -15,7 +15,8 @@
     <Button
         android:id="@+id/btnGetDirection"
         android:text="Get Directions"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground" />
+        android:background="#fff" />
 </LinearLayout>

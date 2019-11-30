@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.areaalert.Others.WomenFeeds;
+import com.example.areaalert.Others.WomenNumber;
 import com.example.areaalert.R;
 import com.example.areaalert.ShakeListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -71,6 +72,8 @@ public class WomenActivity extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(WomenActivity.this,WomenFeeds.class);
+                intent.putExtra("latitude",location.getLatitude());
+                intent.putExtra("longitude",location.getLongitude());
                 startActivity(intent);
             }
         });
@@ -86,8 +89,8 @@ public class WomenActivity extends FragmentActivity implements OnMapReadyCallbac
         w3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent=new Intent
-                //startActivity(intent);
+                Intent intent=new Intent(WomenActivity.this, WomenNumber.class);
+                startActivity(intent);
 
             }
         });

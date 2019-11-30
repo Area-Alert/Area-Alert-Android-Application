@@ -49,22 +49,11 @@ public class CongestionMap extends FragmentActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_congestion_map);
-        CongestionFeeds=findViewById(R.id.CongestionFeeds);
         CongestionReport=findViewById(R.id.CongestrionReport);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(CongestionMap.this);
-        CongestionFeeds.setOnClickListener(new View.OnClickListener() {
-
-    //  -------------------------------------Congestion Report-----------------------------
-            @Override
-            public void onClick(View v) {
-               // Intent intent=new Intent(CongestionMap.this,);
-                //startActivity(intent);
-
-            }
-        });
         CongestionReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +80,7 @@ public class CongestionMap extends FragmentActivity implements OnMapReadyCallbac
         // Add a marker in Sydney and move the camera
         LatLng default_loc = new LatLng(22, 77);
         CollectionReference colref=db.collection("reports");
-        colref.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        colref.whereEqualTo("report_type","congestion").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots)

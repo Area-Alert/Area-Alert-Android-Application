@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.example.areaalert.mapActivities.AmbulanceRoutes;
 import com.example.areaalert.mapActivities.CongestionMap;
 import com.example.areaalert.mapActivities.DisasterActivity;
+import com.example.areaalert.mapActivities.PedestrianActivity;
 import com.example.areaalert.mapActivities.WomenActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -34,13 +35,15 @@ public class Categories extends AppCompatActivity {
             }
         });
         images.add(R.drawable.dsce1);
-        images.add(R.drawable.dsce2);
+        images.add(R.drawable.dsce1);
         images.add(R.drawable.plus);
         images.add(R.drawable.dis);
+        images.add(R.drawable.food);
         names.add("View Road Blockages");
         names.add("Women Suraksha");
         names.add("Ambulance Routing");
         names.add("Natural Disaster Alert!");
+        names.add("Pedestrian Convenience");
         FeedAdapter adapter=new FeedAdapter(Categories.this,names,images);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,6 +67,11 @@ public class Categories extends AppCompatActivity {
                else if(position==3)
                 {
                     Intent intent=new Intent(Categories.this, DisasterActivity.class);
+                    startActivity(intent);
+                }
+               else if(position==4)
+                {
+                    Intent intent=new Intent(Categories.this, PedestrianActivity.class);
                     startActivity(intent);
                 }
             }

@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.areaalert.Others.WomenFeeds;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -55,12 +57,40 @@ public class WomenActivity extends FragmentActivity implements OnMapReadyCallbac
     String address = "";
     LocationManager locationManager;
     String provider;
+    FloatingActionButton w1,w2,w3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_women);
+        w1=findViewById(R.id.WomenFeeds);
+        w2=findViewById(R.id.WomenForum);
+        w3=findViewById(R.id.WomenNumber);
 
+        w1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(WomenActivity.this,WomenFeeds.class);
+                startActivity(intent);
+            }
+        });
+        //-------------------------Women Forum-------------------------
+        w2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+        //--------------------Women Number----------------------------
+        w3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent intent=new Intent
+                //startActivity(intent);
+
+            }
+        });
         final Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         Log.d("WomenActivity", "onCreate: This is WomenActivity");

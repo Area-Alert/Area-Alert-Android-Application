@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
+import com.example.areaalert.MainActivity;
 import com.example.areaalert.Others.FeedClass;
 import com.example.areaalert.R;
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,6 +24,7 @@ import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -40,15 +43,35 @@ public class CongestionMap extends FragmentActivity implements OnMapReadyCallbac
     ArrayList<String> longs=new ArrayList<>();
     ArrayList<String> reports=new ArrayList<>();
     ArrayList<String> id=new ArrayList<>();
+    FloatingActionButton CongestionFeeds,CongestionReport;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_congestion_map);
-
+        CongestionFeeds=findViewById(R.id.CongestionFeeds);
+        CongestionReport=findViewById(R.id.CongestrionReport);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(CongestionMap.this);
+        CongestionFeeds.setOnClickListener(new View.OnClickListener() {
+
+    //  -------------------------------------Congestion Report-----------------------------
+            @Override
+            public void onClick(View v) {
+               // Intent intent=new Intent(CongestionMap.this,);
+                //startActivity(intent);
+
+            }
+        });
+        CongestionReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CongestionMap.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

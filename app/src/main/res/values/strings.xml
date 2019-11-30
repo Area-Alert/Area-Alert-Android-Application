@@ -11,4 +11,5 @@
         <item>congestion</item>
         <item>ambulance</item>
     </string-array>
+    <string name="title_activity_pedestrian">Map</string>
 </resources>

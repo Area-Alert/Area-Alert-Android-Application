@@ -115,7 +115,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                         actionIntent, 0);
 
                 Intent broadcastIntent = new Intent(this, NotificationReceiverWomen.class);
-                broadcastIntent.putExtra("text", ids);
+                broadcastIntent.putExtra("text", map.get("notification_id").toString());
                 PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
                         broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -139,7 +139,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         actionIntent, 0);
                 Intent broadcastIntent = new Intent(this, NotificationReceiverCongestion.class);
-                broadcastIntent.putExtra("text", ids);
+                broadcastIntent.putExtra("text", map.get("notification_id").toString());
                 PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
                         broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -163,7 +163,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         actionIntent, 0);
                 Intent broadcastIntent = new Intent(this, NotificationReceiverAmbulance.class);
-                broadcastIntent.putExtra("text", ids);
+                broadcastIntent.putExtra("text", map.get("notification_id").toString());
                 PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
                         broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -187,7 +187,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         actionIntent, 0);
                 Intent broadcastIntent = new Intent(this, NotificationReceiverDisaster.class);
-                broadcastIntent.putExtra("text", ids);
+                broadcastIntent.putExtra("text", map.get("notification_id").toString());
                 PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
                         broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

@@ -15,6 +15,10 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.areaalert.mapActivities.AmbulanceRoutes;
+import com.example.areaalert.mapActivities.CongestionMap;
+import com.example.areaalert.mapActivities.DisasterActivity;
+import com.example.areaalert.mapActivities.WomenActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -103,58 +107,111 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
         if(!map.get("body").toString().equalsIgnoreCase("cancel")) {
             if (map.get("title").toString().equalsIgnoreCase("women")) {
                 String message = map.get("body").toString();
-                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce1);
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce2);
                 Log.d(TAG, "buildNotification: " + message);
+                Intent actionIntent = new Intent(this, WomenActivity.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                        actionIntent, 0);
+
+                Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+                broadcastIntent.putExtra("text", map.get("notification_id").toString());
+                PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
+                        broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
                 notification
-                        .setColor(686559)
+                        .setColor(6991948)
+                        .setColorized(true)
                         .setSmallIcon(R.drawable.ic_warning_black_24dp)
                         .setContentTitle((CharSequence) map.get("title"))
                         .setLargeIcon(largeIcon)
                         .setContentText("Reports about women available")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(message))
-                        .setVibrate(new long[]{500, 1000, 1500});
+                        .addAction(R.mipmap.ic_launcher, "Is This Helpful?", activityIntent)
+                        .setVibrate(new long[]{500, 1000, 1500})
+                        .setAutoCancel(true)
+                        .setContentIntent(contentIntent);
             } else if (map.get("title").toString().equalsIgnoreCase("congestion")) {
                 String message = map.get("body").toString();
                 Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dsce1);
+                Intent actionIntent = new Intent(this, CongestionMap.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                        actionIntent, 0);
+                Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+                broadcastIntent.putExtra("text", map.get("notification_id").toString());
+                PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
+                        broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
                 notification
-                        .setColor(686559)
+                        .setColor(6991948)
+                        .setColorized(true)
                         .setSmallIcon(R.drawable.ic_warning_black_24dp)
                         .setContentTitle((CharSequence) map.get("title"))
                         .setLargeIcon(largeIcon)
                         .setContentText("Reports about congestion available")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(message))
+                        .setAutoCancel(true)
+                        .addAction(R.mipmap.ic_launcher, "Is This Helpful?", activityIntent)
+                        .setContentIntent(contentIntent)
                         .setVibrate(new long[]{500, 1000, 1500});
             } else if (map.get("title").toString().equalsIgnoreCase("ambulance")) {
                 String message = map.get("body").toString();
                 Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
+                Intent actionIntent = new Intent(this, AmbulanceRoutes.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                        actionIntent, 0);
+                Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+                broadcastIntent.putExtra("text", map.get("notification_id").toString());
+                PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
+                        broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
                 notification
-                        .setColor(686559)
+                        .setColor(6991948)
+                        .setColorized(true)
                         .setSmallIcon(R.drawable.ic_warning_black_24dp)
                         .setContentTitle((CharSequence) map.get("title"))
                         .setLargeIcon(largeIcon)
                         .setContentText("Reports about ambulance available")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(message))
+                        .setAutoCancel(true)
+                        .addAction(R.mipmap.ic_launcher, "Is This Helpful?", activityIntent)
+                        .setContentIntent(contentIntent)
                         .setVibrate(new long[]{500, 1000, 1500});
             } else if (map.get("title").toString().equalsIgnoreCase("disaster")) {
                 String message = map.get("body").toString();
                 Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dis);
+                Intent actionIntent = new Intent(this, DisasterActivity.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                        actionIntent, 0);
+                Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+                broadcastIntent.putExtra("text", map.get("notification_id").toString());
+                PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
+                        broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
                 notification
-                        .setColor(686559)
+                        .setColor(6991948)
+                        .setColorized(true)
                         .setSmallIcon(R.drawable.ic_warning_black_24dp)
                         .setContentTitle((CharSequence) map.get("title"))
                         .setLargeIcon(largeIcon)
                         .setContentText("Reports about natural disasters available")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(message))
+                        .addAction(R.mipmap.ic_launcher, "Is This Helpful?", activityIntent)
+                        .setAutoCancel(true)
+                        .setContentIntent(contentIntent)
                         .setVibrate(new long[]{500, 1000, 1500});
             } else {
                 notification
-                        .setColor(686559)
+                        .setColor(6991948)
+                        .setColorized(true)
                         .setSmallIcon(R.drawable.ic_warning_black_24dp)
                         .setContentTitle("Title")
+                        .setContentIntent(PendingIntent.getActivity(this, 0,
+                                new Intent(this, MainActivity.class), 0))
+                        .setAutoCancel(true)
                         .setVibrate(new long[]{500, 1000, 1500})
                         .setContentText("Message");
             }

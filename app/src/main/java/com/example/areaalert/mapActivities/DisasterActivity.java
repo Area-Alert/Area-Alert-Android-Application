@@ -106,26 +106,30 @@ public class DisasterActivity extends FragmentActivity implements OnMapReadyCall
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     for(QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots) {
                         Log.d("Query", queryDocumentSnapshot.toString());
-                        if (queryDocumentSnapshot.get("postalCode").toString()
-                                .equalsIgnoreCase(postals.get(j))) {
-                            lat = Double.parseDouble(String.valueOf(queryDocumentSnapshot.get("lat")));
-                            lng = Double.parseDouble(String.valueOf(queryDocumentSnapshot.get("lon")));
+                        try {
+                            if (queryDocumentSnapshot.get("postalCode").toString()
+                                    .equalsIgnoreCase(postals.get(j))) {
+                                lat = Double.parseDouble(String.valueOf(queryDocumentSnapshot.get("lat")));
+                                lng = Double.parseDouble(String.valueOf(queryDocumentSnapshot.get("lon")));
 
-                            if (num > 0 && num <= 3) {
-                                WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 0.2);
+                                if (num > 0 && num <= 3) {
+                                    WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 0.2);
 
-                                list.add(latLng);
-                            } else if (num > 3 && num <= 10) {
+                                    list.add(latLng);
+                                } else if (num > 3 && num <= 10) {
 
-                                WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 0.7);
+                                    WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 0.7);
 
-                                list.add(latLng);
-                            } else if (num > 10) {
-                                WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 1.0);
+                                    list.add(latLng);
+                                } else if (num > 10) {
+                                    WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 1.0);
 
-                                list.add(latLng);
+                                    list.add(latLng);
+                                }
+                                Log.d("Size", String.valueOf(list.size()));
                             }
-                            Log.d("Size", String.valueOf(list.size()));
+                        }catch (Exception e){
+                            Log.d("Disaster", "onSuccess: OMG this is a disaster");
                         }
                     }
                     HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder()

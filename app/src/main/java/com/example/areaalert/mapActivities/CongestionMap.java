@@ -63,7 +63,7 @@ public class CongestionMap extends FragmentActivity implements OnMapReadyCallbac
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(12.9076,77.56615882 );
+        LatLng sydney = new LatLng(22.26,77.36);
         CollectionReference colref=db.collection("reports");
         colref.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

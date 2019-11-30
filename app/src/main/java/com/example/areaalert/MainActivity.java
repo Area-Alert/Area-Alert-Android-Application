@@ -336,6 +336,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void SendAfterUpload() {
         String listadd[] = address.split(",");
         int i = listadd.length;
+        int j = listadd[i - 2].split(" ").length;
 
         Map<String, String> name1 = new HashMap<>();
         name1.put("display", name);
@@ -348,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         report.put("lat", location.getLatitude());
         report.put("lon", location.getLongitude());
         report.put("loc", new GeoPoint(location.getLatitude(), location.getLongitude()));
-        report.put("postalCode", listadd[i - 2].split(" ")[2]);
+        report.put("postalCode", listadd[i - 2].split(" ")[j - 1]);
         report.put("report", ReportText.getText().toString());
         report.put("report_type", spinner.getSelectedItem());
         report.put("name", name1);

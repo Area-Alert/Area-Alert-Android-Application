@@ -1,20 +1,20 @@
 package com.example.areaalert;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.areaalert.Receivers.NotificationReceiverAmbulance;
+import com.example.areaalert.Receivers.NotificationReceiverCongestion;
+import com.example.areaalert.Receivers.NotificationReceiverDisaster;
+import com.example.areaalert.Receivers.NotificationReceiverWomen;
 import com.example.areaalert.mapActivities.AmbulanceRoutes;
 import com.example.areaalert.mapActivities.CongestionMap;
 import com.example.areaalert.mapActivities.DisasterActivity;
@@ -22,9 +22,8 @@ import com.example.areaalert.mapActivities.WomenActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 
 import static com.example.areaalert.App.CHANNEL_1_ID;
 import static com.example.areaalert.App.CHANNEL_2_ID;
@@ -36,6 +35,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
     String channel_id = "personal_notifications";
     int notif_id = 001;
     NotificationManagerCompat notificationManager;
+    ArrayList<Map<String, String>> ids = new ArrayList<>();
 
     private static final String TAG = "FirebaseServiceClass";
 
@@ -52,6 +52,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Map<String, String> map;
             map = remoteMessage.getData();
+            ids.add(map);
 
             String title = map.get("title");
             String body = map.get("body");
@@ -113,8 +114,8 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         actionIntent, 0);
 
-                Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-                broadcastIntent.putExtra("text", map.get("notification_id").toString());
+                Intent broadcastIntent = new Intent(this, NotificationReceiverWomen.class);
+                broadcastIntent.putExtra("text", ids);
                 PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
                         broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -137,8 +138,8 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                 Intent actionIntent = new Intent(this, CongestionMap.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         actionIntent, 0);
-                Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-                broadcastIntent.putExtra("text", map.get("notification_id").toString());
+                Intent broadcastIntent = new Intent(this, NotificationReceiverCongestion.class);
+                broadcastIntent.putExtra("text", ids);
                 PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
                         broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -161,8 +162,8 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                 Intent actionIntent = new Intent(this, AmbulanceRoutes.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         actionIntent, 0);
-                Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-                broadcastIntent.putExtra("text", map.get("notification_id").toString());
+                Intent broadcastIntent = new Intent(this, NotificationReceiverAmbulance.class);
+                broadcastIntent.putExtra("text", ids);
                 PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
                         broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -185,8 +186,8 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                 Intent actionIntent = new Intent(this, DisasterActivity.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         actionIntent, 0);
-                Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-                broadcastIntent.putExtra("text", map.get("notification_id").toString());
+                Intent broadcastIntent = new Intent(this, NotificationReceiverDisaster.class);
+                broadcastIntent.putExtra("text", ids);
                 PendingIntent activityIntent = PendingIntent.getBroadcast(this, 0,
                         broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

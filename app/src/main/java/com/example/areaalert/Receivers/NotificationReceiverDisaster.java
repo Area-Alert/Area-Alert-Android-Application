@@ -1,4 +1,4 @@
-package com.example.areaalert;
+package com.example.areaalert.Receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,11 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NotificationReceiver extends BroadcastReceiver {
+public class NotificationReceiverDisaster extends BroadcastReceiver {
 
 
     FirebaseFirestore db;
-    String TAG = "NotificationReceiver";
+    String TAG = "NotificationReceiverDisaster";
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -50,7 +50,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                                         });
                             }catch(Exception e){
                                 Map<String, Object> data = new HashMap<>();
-                                data.put("upvote", 1);
+                                data.put("upvotes", 1);
                                 db.collection("reports")
                                         .document(message)
                                         .update(data)

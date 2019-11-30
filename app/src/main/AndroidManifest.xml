@@ -68,7 +68,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".NotificationReceiver"/>
+        <receiver android:name=".Receivers.NotificationReceiverWomen"/>
+        <receiver android:name=".Receivers.NotificationReceiverAmbulance"/>
+        <receiver android:name=".Receivers.NotificationReceiverCongestion"/>
+        <receiver android:name=".Receivers.NotificationReceiverDisaster"/>
         <service android:name=".FirebaseServiceClass">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -1,21 +1,18 @@
-package com.example.areaalert;
+package com.example.areaalert.mapActivities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.areaalert.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -109,26 +106,30 @@ public class DisasterActivity extends FragmentActivity implements OnMapReadyCall
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     for(QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots) {
                         Log.d("Query", queryDocumentSnapshot.toString());
-                        if (queryDocumentSnapshot.get("postalCode").toString()
-                                .equalsIgnoreCase(postals.get(j))) {
-                            lat = Double.parseDouble(String.valueOf(queryDocumentSnapshot.get("lat")));
-                            lng = Double.parseDouble(String.valueOf(queryDocumentSnapshot.get("lon")));
+                        try {
+                            if (queryDocumentSnapshot.get("postalCode").toString()
+                                    .equalsIgnoreCase(postals.get(j))) {
+                                lat = Double.parseDouble(String.valueOf(queryDocumentSnapshot.get("lat")));
+                                lng = Double.parseDouble(String.valueOf(queryDocumentSnapshot.get("lon")));
 
-                            if (num > 0 && num <= 3) {
-                                WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 0.2);
+                                if (num > 0 && num <= 3) {
+                                    WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 0.2);
 
-                                list.add(latLng);
-                            } else if (num > 3 && num <= 10) {
+                                    list.add(latLng);
+                                } else if (num > 3 && num <= 10) {
 
-                                WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 0.7);
+                                    WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 0.7);
 
-                                list.add(latLng);
-                            } else if (num > 10) {
-                                WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 1.0);
+                                    list.add(latLng);
+                                } else if (num > 10) {
+                                    WeightedLatLng latLng = new WeightedLatLng(new LatLng(lat, lng), 1.0);
 
-                                list.add(latLng);
+                                    list.add(latLng);
+                                }
+                                Log.d("Size", String.valueOf(list.size()));
                             }
-                            Log.d("Size", String.valueOf(list.size()));
+                        }catch (Exception e){
+                            Log.d("Disaster", "onSuccess: OMG this is a disaster");
                         }
                     }
                     HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder()

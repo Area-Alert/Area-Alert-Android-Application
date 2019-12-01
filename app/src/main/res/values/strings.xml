@@ -5,9 +5,11 @@
     <string name="title_activity_disaster">Map</string>
     <string name="title_activity_ambulance">Map</string>
     <string-array name="Categories">
+        <item>Select Category</item>
         <item>women</item>
         <item>disaster</item>
         <item>congestion</item>
         <item>ambulance</item>
     </string-array>
+    <string name="title_activity_pedestrian">Map</string>
 </resources>

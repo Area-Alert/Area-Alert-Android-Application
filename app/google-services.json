@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "962330034406-4ibfi04p17poorlob3eulu6io7euorbb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.areaalert",
+            "certificate_hash": "2fe4f4f452c83cdbc3478e2c40824faa6ab121c7"
+          }
+        },
+        {
           "client_id": "962330034406-f9krfhlltv3ahrtb68vlf617mku90md8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -45,14 +53,14 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAvlxqrfgowT3ZEVzF4aTkVJk1U7-a2ukU"
+          "current_key": "AIzaSyAuR-Pq2eJpJXfxT2DfpsDE2au-_p3dadk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "962330034406-o3ou847opuntq1p3h0cgg8vedag0lat9.apps.googleusercontent.com",
+              "client_id": "962330034406-3qrcmt58rvkechftns8o6oivenljtqbv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -82,14 +90,14 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAvlxqrfgowT3ZEVzF4aTkVJk1U7-a2ukU"
+          "current_key": "AIzaSyAuR-Pq2eJpJXfxT2DfpsDE2au-_p3dadk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "962330034406-o3ou847opuntq1p3h0cgg8vedag0lat9.apps.googleusercontent.com",
+              "client_id": "962330034406-3qrcmt58rvkechftns8o6oivenljtqbv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -119,14 +127,14 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAvlxqrfgowT3ZEVzF4aTkVJk1U7-a2ukU"
+          "current_key": "AIzaSyAuR-Pq2eJpJXfxT2DfpsDE2au-_p3dadk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "962330034406-o3ou847opuntq1p3h0cgg8vedag0lat9.apps.googleusercontent.com",
+              "client_id": "962330034406-3qrcmt58rvkechftns8o6oivenljtqbv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

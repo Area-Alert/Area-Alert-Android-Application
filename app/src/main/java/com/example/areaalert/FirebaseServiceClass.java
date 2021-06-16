@@ -178,7 +178,7 @@ public class FirebaseServiceClass extends FirebaseMessagingService {
                         .addAction(R.mipmap.ic_launcher, "Is This Helpful?", activityIntent)
                         .setContentIntent(contentIntent)
                         .setVibrate(new long[]{500, 1000, 1500});
-            } else if (map.get("title").toString().equalsIgnoreCase("disaster")) {
+            } else if (map.get("title").toString().toLowerCase().contains("disaster")) {
                 String message = map.get("body").toString();
                 Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.dis);
                 Intent actionIntent = new Intent(this, DisasterActivity.class);
